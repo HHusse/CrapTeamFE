@@ -12,6 +12,7 @@ import Home from "./Pages/Home";
 import Competitions from "./Pages/Competions";
 import CompetitionDetails from "./Pages/CompetitionDetails";
 import Layout from "./Components/Layout";
+import DespreNoi from "./Pages/DespreNoi";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
@@ -27,6 +28,10 @@ root.render(
             </Layout>
           }
         />
+        <Route path="/despre-noi" element={<Layout>
+              <DespreNoi />
+            </Layout>} /> {/* Despre Noi route */}
+        
         <Route
           path="/competitions"
           element={
