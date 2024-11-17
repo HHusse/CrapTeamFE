@@ -16,6 +16,7 @@ import LoginPage from "./Pages/LoginPage";
 import Dashboard from "./Pages/Dashboard";
 import PrivateRoute from "./Components/PrivateRoutes";
 import ResultsPage from "./Pages/ResultsPage";
+import DespreNoi from "./Pages/DespreNoi";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
@@ -31,6 +32,15 @@ root.render(
           }
         />
         <Route
+          path="/despre-noi"
+          element={
+            <Layout>
+              <DespreNoi />
+            </Layout>
+          }
+        />{" "}
+        {/* Despre Noi route */}
+        <Route
           path="/competitions"
           element={
             <Layout>
@@ -38,7 +48,6 @@ root.render(
             </Layout>
           }
         />
-
         <Route
           path="/competition/details/:id"
           element={
@@ -47,7 +56,6 @@ root.render(
             </Layout>
           }
         />
-
         <Route
           path="/login"
           element={
@@ -56,7 +64,6 @@ root.render(
             </Layout>
           }
         />
-
         <Route
           path="/admin"
           element={
@@ -70,7 +77,6 @@ root.render(
             />
           }
         />
-
         <Route
           path="/admin/result/:id_competition"
           element={
@@ -84,7 +90,6 @@ root.render(
             />
           }
         />
-
         <Route path="*" element={<Navigate to="/" />} />
       </Routes>
     </Router>
