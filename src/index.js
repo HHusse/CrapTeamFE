@@ -9,6 +9,9 @@ import {
 import "./index.css";
 import reportWebVitals from "./reportWebVitals";
 import Home from "./Pages/Home";
+import Competitions from "./Pages/Competions";
+import CompetitionDetails from "./Pages/CompetitionDetails";
+import Layout from "./Components/Layout";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
@@ -16,8 +19,31 @@ root.render(
     <Router>
       <Routes>
         {/* Rute Publice */}
-        <Route path="/" element={<Home />} />
+        <Route
+          path="/"
+          element={
+            <Layout>
+              <Home />
+            </Layout>
+          }
+        />
+        <Route
+          path="/competitions"
+          element={
+            <Layout>
+              <Competitions />
+            </Layout>
+          }
+        />
 
+        <Route
+          path="/competition/details/:id"
+          element={
+            <Layout>
+              <CompetitionDetails />
+            </Layout>
+          }
+        />
         <Route path="*" element={<Navigate to="/" />} />
       </Routes>
     </Router>
