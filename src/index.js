@@ -12,13 +12,15 @@ import Home from "./Pages/Home";
 import Competitions from "./Pages/Competions";
 import CompetitionDetails from "./Pages/CompetitionDetails";
 import Layout from "./Components/Layout";
+import LoginPage from "./Pages/LoginPage";
+import Dashboard from "./Pages/Dashboard";
+import PrivateRoute from "./Components/PrivateRoutes";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
     <Router>
       <Routes>
-        {/* Rute Publice */}
         <Route
           path="/"
           element={
@@ -44,6 +46,30 @@ root.render(
             </Layout>
           }
         />
+
+        <Route
+          path="/login"
+          element={
+            <Layout>
+              <LoginPage />
+            </Layout>
+          }
+        />
+
+        <Route
+          path="/admin"
+          element={
+            <PrivateRoute
+              requiredRole="ADMIN"
+              element={
+                <Layout>
+                  <Dashboard />
+                </Layout>
+              }
+            />
+          }
+        />
+
         <Route path="*" element={<Navigate to="/" />} />
       </Routes>
     </Router>

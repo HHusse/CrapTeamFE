@@ -13,6 +13,7 @@ import {
   TableCell,
   TableHead,
   TableRow,
+  CircularProgress,
 } from "@mui/material";
 
 const CompetitionDetails = () => {
@@ -67,12 +68,11 @@ const CompetitionDetails = () => {
           display: "flex",
           justifyContent: "center",
           alignItems: "center",
-          height: "50%",
+          color: "white",
+          height: "40vh", // Or adjust based on your layout
         }}
       >
-        <Typography variant="h6" sx={{ color: "white" }}>
-          Loading competition details...
-        </Typography>
+        <CircularProgress size={24} color="white" />
       </Box>
     );
   }
@@ -90,6 +90,7 @@ const CompetitionDetails = () => {
         backgroundColor: "transparent",
         color: "white",
         minHeight: "100vh",
+        marginTop: 70,
       }}
     >
       <Typography
@@ -106,20 +107,20 @@ const CompetitionDetails = () => {
         sx={{
           maxWidth: 600,
           margin: "0 auto",
-          marginBottom: 4,
+          marginBottom: 10,
           backgroundColor: "transparent",
           boxShadow: "none",
         }}
       >
         <CardContent>
           <Typography variant="h6" sx={{ color: "white" }}>
-            Location: {competition.location}
+            Locatie: {competition.location}
           </Typography>
           <Typography variant="body1" sx={{ color: "white" }}>
-            Start Date: {formatDate(competition.startDate)}
+            Incepe in data de {formatDate(competition.startDate)}
           </Typography>
           <Typography variant="body1" sx={{ color: "white" }}>
-            End Date: {formatDate(competition.endDate)}
+            Se termina in data de {formatDate(competition.endDate)}
           </Typography>
         </CardContent>
       </Card>
@@ -129,9 +130,9 @@ const CompetitionDetails = () => {
         component="div"
         gutterBottom
         align="center"
-        sx={{ marginBottom: 4 }}
+        sx={{ marginBottom: 2 }}
       >
-        Participating Teams
+        Echipele Participante
       </Typography>
 
       <Box sx={{ maxWidth: 800, margin: "0 auto" }}>
@@ -153,7 +154,7 @@ const CompetitionDetails = () => {
                   <List>
                     {team.members.map((member) => (
                       <ListItem key={member.memberId} sx={{ color: "white" }}>
-                        {member.name} - {member.role}
+                        {member.name}
                       </ListItem>
                     ))}
                   </List>
@@ -162,8 +163,12 @@ const CompetitionDetails = () => {
             ))}
           </List>
         ) : (
-          <Typography variant="body1" align="center" sx={{ color: "white" }}>
-            No teams found for this competition.
+          <Typography
+            variant="body1"
+            align="center"
+            sx={{ color: "white", marginBottom: "20vh" }}
+          >
+            Indisponibil
           </Typography>
         )}
       </Box>
@@ -174,12 +179,12 @@ const CompetitionDetails = () => {
         component="div"
         gutterBottom
         align="center"
-        sx={{ marginBottom: 4 }}
+        sx={{ marginBottom: 2 }}
       >
-        Competition Results
+        Rezultate
       </Typography>
 
-      <Box sx={{ maxWidth: 800, margin: "0 auto" }}>
+      <Box sx={{ maxWidth: 800, margin: "0 auto", marginBottom: 10 }}>
         {results.length > 0 ? (
           <Table>
             <TableHead>
@@ -238,8 +243,12 @@ const CompetitionDetails = () => {
             </TableBody>
           </Table>
         ) : (
-          <Typography variant="body1" align="center" sx={{ color: "white" }}>
-            No results found for this competition.
+          <Typography
+            variant="body1"
+            align="center"
+            sx={{ color: "white", marginBottom: "20vh" }}
+          >
+            Indisponibil
           </Typography>
         )}
       </Box>
