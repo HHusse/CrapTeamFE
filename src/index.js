@@ -13,13 +13,17 @@ import Competitions from "./Pages/Competions";
 import CompetitionDetails from "./Pages/CompetitionDetails";
 import Layout from "./Components/Layout";
 import DespreNoi from "./Pages/DespreNoi";
+import LoginPage from "./Pages/LoginPage";
+import Dashboard from "./Pages/Dashboard";
+import PrivateRoute from "./Components/PrivateRoutes";
+import RegisterTeam from "./Pages/RegisterTeam";
+import EchipaMea from "./Pages/EchipaMea";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
     <Router>
       <Routes>
-        {/* Rute Publice */}
         <Route
           path="/"
           element={
@@ -28,10 +32,17 @@ root.render(
             </Layout>
           }
         />
+        <Route
+          path="/register"
+          element={
+            <Layout>
+              <RegisterTeam />
+            </Layout>
+          }
+        />
         <Route path="/despre-noi" element={<Layout>
               <DespreNoi />
-            </Layout>} /> {/* Despre Noi route */}
-        
+            </Layout>} /> 
         <Route
           path="/competitions"
           element={
@@ -39,6 +50,7 @@ root.render(
               <Competitions />
             </Layout>
           }
+          
         />
 
         <Route
@@ -49,6 +61,52 @@ root.render(
             </Layout>
           }
         />
+
+        <Route
+          path="/login"
+          element={
+            <Layout>
+              <LoginPage />
+            </Layout>
+          }
+        />
+        <Route
+          path="/user"
+          element={
+            <PrivateRoute
+              requiredRole="USER"
+              element={
+                <Layout>
+                  <Dashboard />
+                </Layout>
+              }
+            />
+          }
+        
+        />
+        <Route
+          path="/admin"
+          element={
+            <PrivateRoute
+              requiredRole="ADMIN"
+              element={
+                <Layout>
+                  <Dashboard />
+                </Layout>
+              }
+            />
+          }
+        />
+        <Route
+          path="/echipa-mea"
+          element={
+            <Layout>
+              <EchipaMea />
+            </Layout>
+          }
+        />
+        
+
         <Route path="*" element={<Navigate to="/" />} />
       </Routes>
     </Router>

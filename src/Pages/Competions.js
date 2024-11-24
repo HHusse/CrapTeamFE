@@ -1,13 +1,20 @@
 import React, { useState, useEffect } from "react";
-import { Card, CardContent, Typography, Button, Box } from "@mui/material";
+import {
+  Card,
+  CardContent,
+  Typography,
+  Button,
+  Box,
+  CircularProgress,
+} from "@mui/material";
 import axios from "axios";
-import { useNavigate } from "react-router-dom"; // Import useNavigate hook
+import { useNavigate } from "react-router-dom";
 
 const Competitions = () => {
   const [competitions, setCompetitions] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  const navigate = useNavigate(); // Initialize useNavigate hook
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchCompetitions = async () => {
@@ -33,9 +40,17 @@ const Competitions = () => {
 
   if (loading) {
     return (
-      <Typography variant="h6" align="center">
-        Loading...
-      </Typography>
+      <Box
+        sx={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          color: "white",
+          height: "40vh", // Or adjust based on your layout
+        }}
+      >
+        <CircularProgress size={24} color="white" />
+      </Box>
     );
   }
 
@@ -78,10 +93,10 @@ const Competitions = () => {
                 Locatia: {competition.location}
               </Typography>
               <Typography variant="body2" color="text.secondary">
-                Data inceperii: {formatDate(competition.startDate)}
+                Incepe in data de {formatDate(competition.startDate)}
               </Typography>
               <Typography variant="body2" color="text.secondary">
-                Data finalului: {formatDate(competition.endDate)}
+                Se termina in data de {formatDate(competition.endDate)}
               </Typography>
             </CardContent>
             {/* Red button with redirect on click */}
