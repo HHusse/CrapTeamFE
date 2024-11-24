@@ -17,6 +17,8 @@ import Dashboard from "./Pages/Dashboard";
 import PrivateRoute from "./Components/PrivateRoutes";
 import ResultsPage from "./Pages/ResultsPage";
 import DespreNoi from "./Pages/DespreNoi";
+import RegisterTeam from "./Pages/RegisterTeam";
+import EchipaMea from "./Pages/EchipaMea";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
@@ -88,6 +90,27 @@ root.render(
                 </Layout>
               }
             />
+          }
+        />
+        <Route
+          path="/echipa-mea"
+          element={
+            <PrivateRoute
+              requiredRole="TEAM"
+              element={
+                <Layout>
+                  <EchipaMea />
+                </Layout>
+              }
+            />
+          }
+        />
+        <Route
+          path="/register"
+          element={
+            <Layout>
+              <RegisterTeam />
+            </Layout>
           }
         />
         <Route path="*" element={<Navigate to="/" />} />
