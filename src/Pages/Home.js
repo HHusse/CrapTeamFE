@@ -4,7 +4,7 @@ function Home() {
       <img
         src="/background.jpeg"
         alt="Background"
-        className="w-full h-42 object-cover"
+        className="w-full h-42 object-cover -mt-10"
       />
     </div>
   );

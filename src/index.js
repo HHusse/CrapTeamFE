@@ -15,6 +15,7 @@ import Layout from "./Components/Layout";
 import LoginPage from "./Pages/LoginPage";
 import Dashboard from "./Pages/Dashboard";
 import PrivateRoute from "./Components/PrivateRoutes";
+import ResultsPage from "./Pages/ResultsPage";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
@@ -64,6 +65,20 @@ root.render(
               element={
                 <Layout>
                   <Dashboard />
+                </Layout>
+              }
+            />
+          }
+        />
+
+        <Route
+          path="/admin/result/:id_competition"
+          element={
+            <PrivateRoute
+              requiredRole="ADMIN"
+              element={
+                <Layout>
+                  <ResultsPage />
                 </Layout>
               }
             />

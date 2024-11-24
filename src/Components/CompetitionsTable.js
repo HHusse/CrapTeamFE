@@ -13,15 +13,17 @@ import {
 } from "@mui/material";
 import axios from "axios";
 import { useAuth } from "../hooks/useAuth"; // Assuming you have a custom hook to get the token
+import { useNavigate } from "react-router-dom"; // For navigation
 
 const CompetitionsTable = () => {
-  const { getToken } = useAuth(); // Get the token from your custom hook
+  const { getToken } = useAuth();
   const [competitions, setCompetitions] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
 
+  const navigate = useNavigate(); // Hook for navigation
+
   useEffect(() => {
-    // Fetch competitions data on component mount
     const fetchCompetitions = async () => {
       try {
         const response = await axios.get(
@@ -32,7 +34,7 @@ const CompetitionsTable = () => {
             },
           }
         );
-        setCompetitions(response.data); // Save competitions data to state
+        setCompetitions(response.data);
       } catch (err) {
         setError("Failed to fetch competitions.");
         console.error(err);
@@ -44,9 +46,8 @@ const CompetitionsTable = () => {
     fetchCompetitions();
   }, []);
 
-  // Handle delete competition
   const handleDelete = async (competitionId) => {
-    const token = getToken(); // Get the token
+    const token = getToken();
 
     if (!token) {
       setError("You must be logged in to delete a competition.");
@@ -59,11 +60,10 @@ const CompetitionsTable = () => {
         {
           headers: {
             accept: "*/*",
-            Authorization: `Bearer ${token}`, // Include token for authentication
+            Authorization: `Bearer ${token}`,
           },
         }
       );
-      // Remove the deleted competition from the state
       setCompetitions(
         competitions.filter((comp) => comp.competitionId !== competitionId)
       );
@@ -71,6 +71,15 @@ const CompetitionsTable = () => {
       setError("Failed to delete competition.");
       console.error(err);
     }
+  };
+
+  const handleResults = (competitionId) => {
+    navigate(`/admin/result/${competitionId}`);
+  };
+
+  const formatDate = (timestamp) => {
+    const date = new Date(timestamp * 1000);
+    return date.toLocaleString();
   };
 
   if (loading) {
@@ -81,7 +90,7 @@ const CompetitionsTable = () => {
           justifyContent: "center",
           alignItems: "center",
           color: "white",
-          height: "40vh", // Or adjust based on your layout
+          height: "40vh",
         }}
       >
         <CircularProgress size={24} color="white" />
@@ -98,7 +107,7 @@ const CompetitionsTable = () => {
           marginBottom: 5,
         }}
       >
-        Competitile existente
+        Competitions List
       </Typography>
       {error && (
         <Box sx={{ marginBottom: 2, color: "red" }}>
@@ -176,7 +185,7 @@ const CompetitionsTable = () => {
                     color: "white",
                   }}
                 >
-                  {new Date(competition.startDate).toLocaleString()}
+                  {formatDate(competition.startDate)}
                 </TableCell>
                 <TableCell
                   sx={{
@@ -184,7 +193,7 @@ const CompetitionsTable = () => {
                     color: "white",
                   }}
                 >
-                  {new Date(competition.endDate).toLocaleString()}
+                  {formatDate(competition.endDate)}
                 </TableCell>
                 <TableCell
                   sx={{
@@ -197,7 +206,18 @@ const CompetitionsTable = () => {
                     color="error"
                     onClick={() => handleDelete(competition.competitionId)}
                   >
-                    Sterge
+                    Delete
+                  </Button>
+                  <Button
+                    variant="contained"
+                    sx={{
+                      marginLeft: 1,
+                      backgroundColor: "yellow",
+                      color: "black",
+                    }}
+                    onClick={() => handleResults(competition.competitionId)}
+                  >
+                    Results
                   </Button>
                 </TableCell>
               </TableRow>

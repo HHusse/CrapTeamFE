@@ -31,14 +31,16 @@ const AddCompetition = () => {
     setLoading(true);
     setError(null);
 
+    console.log(new Date(endDate).getTime() / 1000);
+    console.log(new Date(startDate).getTime() / 1000);
     try {
       await axios.post(
         `${process.env.REACT_APP_API_URL}/api/v1/competition`,
         {
           name,
           location,
-          startDate: new Date(startDate).getTime(), // Convert to timestamp
-          endDate: new Date(endDate).getTime(), // Convert to timestamp
+          startDate: Math.floor(new Date(startDate).getTime() / 1000),
+          endDate: Math.floor(new Date(endDate).getTime() / 1000),
         },
         {
           headers: {
