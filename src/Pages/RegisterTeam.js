@@ -38,14 +38,19 @@ const RegisterTeam = () => {
     setError("");
     setSuccess("");
 
-    if (!formData.teamName || !formData.email || !formData.phoneNumber || !formData.password) {
+    if (
+      !formData.teamName ||
+      !formData.email ||
+      !formData.phoneNumber ||
+      !formData.password
+    ) {
       setError("Toate câmpurile sunt obligatorii.");
       setLoading(false);
       return;
     }
 
     try {
-      const response = await axios.post(
+      await axios.post(
         `${process.env.REACT_APP_API_URL}/api/v1/team`,
         formData,
         {
@@ -63,7 +68,10 @@ const RegisterTeam = () => {
         password: "",
       });
     } catch (err) {
-      setError(err.response?.data?.message || "A apărut o eroare la înregistrarea echipei.");
+      setError(
+        err.response?.data?.message ||
+          "A apărut o eroare la înregistrarea echipei."
+      );
     } finally {
       setLoading(false);
     }
@@ -83,8 +91,16 @@ const RegisterTeam = () => {
           Înregistrează Echipa
         </Typography>
 
-        {success && <Alert severity="success" sx={{ mb: 2 }}>{success}</Alert>}
-        {error && <Alert severity="error" sx={{ mb: 2 }}>{error}</Alert>}
+        {success && (
+          <Alert severity="success" sx={{ mb: 2 }}>
+            {success}
+          </Alert>
+        )}
+        {error && (
+          <Alert severity="error" sx={{ mb: 2 }}>
+            {error}
+          </Alert>
+        )}
 
         <form onSubmit={handleSubmit}>
           <TextField
