@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   TextField,
   Button,
@@ -11,23 +11,44 @@ import { useAuth } from "../hooks/useAuth";
 
 const UpdateLogo = () => {
   const { getToken } = useAuth();
-  const [logo, setLogo] = useState(null);
+  const [logo, setLogo] = useState(null); // File to upload
+  const [logoUrl, setLogoUrl] = useState(""); // URL of the current logo
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
+  const token = getToken();
+
+  // Fetch the current logo URL when the component loads
+  useEffect(() => {
+    const fetchLogo = async () => {
+      try {
+        const response = await axios.get(
+          `${process.env.REACT_APP_API_URL}/api/v1/team/get/logo`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+        setLogoUrl(response.data.logoUrl); // Assuming the response contains `logoUrl`
+      } catch (err) {
+        console.error("Error fetching logo:", err);
+        setError("Failed to fetch the current logo.");
+      }
+    };
+
+    fetchLogo();
+  }, [token]);
+
+  // Handle file selection
   const handleFileChange = (e) => {
     setLogo(e.target.files[0]);
     setError("");
   };
 
+  // Handle logo upload
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const token = getToken();
-
-    if (!token) {
-      setError("You must be logged in to update the team logo.");
-      return;
-    }
 
     if (!logo) {
       setError("Please select a logo file.");
@@ -41,7 +62,7 @@ const UpdateLogo = () => {
     setError(null);
 
     try {
-      await axios.post(
+      const response = await axios.post(
         `${process.env.REACT_APP_API_URL}/api/v1/team/upload-image`,
         formData,
         {
@@ -52,9 +73,9 @@ const UpdateLogo = () => {
         }
       );
 
+      setLogoUrl(response.data.logoUrl); // Update the displayed logo
       alert("Logo-ul a fost actualizat cu succes!");
       setLogo(null);
-      setError("");
     } catch (err) {
       console.error("Error updating logo:", err);
       setError("Failed to update the logo. Please try again.");
@@ -63,12 +84,48 @@ const UpdateLogo = () => {
     }
   };
 
+  // Handle logo deletion
+  const handleDeleteLogo = async () => {
+    setLoading(true);
+
+    try {
+      await axios.delete(
+        `${process.env.REACT_APP_API_URL}/api/v1/team/delete/logo`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      setLogoUrl(""); // Clear the displayed logo
+      alert("Logo-ul a fost șters cu succes!");
+    } catch (err) {
+      console.error("Error deleting logo:", err);
+      setError("Failed to delete the logo. Please try again.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
+    <Box
+      sx={{
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        height: "40vh",
+      }}
+    >
       <Box
         sx={{
-          width: "400px",
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          flexDirection: "column",
           padding: 3,
-          backgroundColor: "rgba(255, 255, 255, 0.9)", // Fundal semi-transparent
+          width: "400px",
+          backgroundColor: "rgba(255, 255, 255, 0.9)",
           borderRadius: "8px",
           boxShadow: "0 4px 10px rgba(0, 0, 0, 0.3)",
         }}
@@ -82,12 +139,37 @@ const UpdateLogo = () => {
             textAlign: "center",
           }}
         >
-          Setează Logo-ul Clubului
+          Administrează Logo-ul Clubului
         </Typography>
         {error && (
           <Typography variant="body2" color="error" sx={{ marginBottom: 2 }}>
             {error}
           </Typography>
+        )}
+        {logoUrl && (
+          <Box sx={{ marginBottom: 3, textAlign: "center" }}>
+            <Typography variant="body1" gutterBottom>
+              Logo-ul actual:
+            </Typography>
+            <img
+              src={logoUrl}
+              alt="Current Logo"
+              style={{
+                width: "150px",
+                height: "150px",
+                borderRadius: "50%",
+                objectFit: "cover",
+              }}
+            />
+            <Button
+              onClick={handleDeleteLogo}
+              variant="contained"
+              color="error"
+              sx={{ marginTop: 2 }}
+            >
+              Șterge Logo-ul
+            </Button>
+          </Box>
         )}
         <form onSubmit={handleSubmit}>
           <TextField
@@ -143,7 +225,7 @@ const UpdateLogo = () => {
           </Button>
         </form>
       </Box>
-  
+    </Box>
   );
 };
 
