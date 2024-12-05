@@ -3,6 +3,7 @@ import { Box, Typography } from "@mui/material";
 import AddCompetition from "../Components/AddCompetition";
 import CompetitionsTable from "../Components/CompetitionsTable";
 import TeamsTable from "../Components/TeamsTable";
+import MembersTable from "../Components/MembersTable";
 
 const Dashboard = () => {
   // If role is ADMIN, render the dashboard content
@@ -25,6 +26,7 @@ const Dashboard = () => {
       <AddCompetition></AddCompetition>
       <CompetitionsTable></CompetitionsTable>
       <TeamsTable></TeamsTable>
+      <MembersTable></MembersTable>
     </Box>
   );
 };
