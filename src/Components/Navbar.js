@@ -107,6 +107,7 @@ const Navbar = () => {
                   border: "1px solid black",
                 }}
                 className="hover:text-gray-400 px-4 rounded"
+                onClick={() => handleAdminClick("/echipa-mea")}
               >
                 Echipa Mea
               </Button>
