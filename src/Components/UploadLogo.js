@@ -12,33 +12,42 @@ import { useAuth } from "../hooks/useAuth";
 const UpdateLogo = () => {
   const { getToken } = useAuth();
   const [logo, setLogo] = useState(null); // File to upload
-  const [logoUrl, setLogoUrl] = useState(""); // URL of the current logo
+  const [logoUrl, setLogoUrl] = useState(""); // Blob URL of the current logo
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
   const token = getToken();
 
-  // Fetch the current logo URL when the component loads
+  // Fetch the current logo when the component loads
   useEffect(() => {
     const fetchLogo = async () => {
       try {
         const response = await axios.get(
-          `${process.env.REACT_APP_API_URL}/api/v1/team/get/logo`,
+          `${process.env.REACT_APP_API_URL}/api/v1/team/logo`,
           {
             headers: {
               Authorization: `Bearer ${token}`,
             },
+            responseType: "arraybuffer", // To fetch raw binary data
           }
         );
-        setLogoUrl(response.data.logoUrl); // Assuming the response contains `logoUrl`
-      } catch (err) {
-        console.error("Error fetching logo:", err);
-        setError("Failed to fetch the current logo.");
-      }
+
+        // Convert the bytes to a Blob and then to a URL
+        const blob = new Blob([response.data], { type: "image/png" }); // Adjust type if needed (e.g., image/jpeg)
+        const imageUrl = URL.createObjectURL(blob);
+        setLogoUrl(imageUrl); // Set the generated URL
+      } catch (err) {}
     };
 
     fetchLogo();
-  }, [token]);
+
+    // Cleanup: Revoke the object URL when the component unmounts
+    return () => {
+      if (logoUrl) {
+        URL.revokeObjectURL(logoUrl);
+      }
+    };
+  }, [token, logoUrl]);
 
   // Handle file selection
   const handleFileChange = (e) => {
@@ -73,7 +82,9 @@ const UpdateLogo = () => {
         }
       );
 
-      setLogoUrl(response.data.logoUrl); // Update the displayed logo
+      const updatedBlob = new Blob([response.data], { type: "image/png" });
+      const updatedUrl = URL.createObjectURL(updatedBlob);
+      setLogoUrl(updatedUrl); // Update the displayed logo
       alert("Logo-ul a fost actualizat cu succes!");
       setLogo(null);
     } catch (err) {
@@ -89,14 +100,11 @@ const UpdateLogo = () => {
     setLoading(true);
 
     try {
-      await axios.delete(
-        `${process.env.REACT_APP_API_URL}/api/v1/team/delete/logo`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
+      await axios.delete(`${process.env.REACT_APP_API_URL}/api/v1/team/logo`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
 
       setLogoUrl(""); // Clear the displayed logo
       alert("Logo-ul a fost șters cu succes!");
@@ -114,6 +122,7 @@ const UpdateLogo = () => {
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
+        marginBottom: "10vh",
         height: "40vh",
       }}
     >

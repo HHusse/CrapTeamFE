@@ -15,6 +15,7 @@ const DashboardTeam = () => {
           flexDirection: "column",
           justifyContent: "center",
           alignItems: "center",
+          marginBottom: "10vh",
           color: "white",
           padding: 2,
         }}

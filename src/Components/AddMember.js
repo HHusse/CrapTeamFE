@@ -16,12 +16,12 @@ const AddMember = () => {
   const [message, setMessage] = useState("");
   const [loading, setLoading] = useState(false);
 
-  const token = getToken(); 
+  const token = getToken();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    setLoading(true); 
+    setLoading(true);
 
     try {
       await axios.post(
@@ -32,18 +32,18 @@ const AddMember = () => {
         },
         {
           headers: {
-            Authorization: `Bearer ${token}`, 
+            Authorization: `Bearer ${token}`,
           },
         }
       );
       setMessage("Membrul a fost adăugat cu succes!");
-      setName(""); 
+      setName("");
       setRole("");
     } catch (error) {
       setMessage("Eroare la adăugarea membrului.");
       console.error("Error:", error.response?.data || error.message);
     } finally {
-      setLoading(false); 
+      setLoading(false);
     }
   };
 
@@ -59,12 +59,12 @@ const AddMember = () => {
         boxShadow: "0 4px 10px rgba(0, 0, 0, 0.3)",
       }}
     >
-      <Typography 
-       variant="h4" 
-       gutterBottom
-       sx={{
-        color:"darkred",
-       }}
+      <Typography
+        variant="h4"
+        gutterBottom
+        sx={{
+          color: "darkred",
+        }}
       >
         Adaugă Membru
       </Typography>
@@ -73,7 +73,8 @@ const AddMember = () => {
           label="Nume"
           variant="outlined"
           fullWidth
-          sx={{ marginBottom: 2,
+          sx={{
+            marginBottom: 2,
             "& .MuiOutlinedInput-root": {
               "& fieldset": {
                 borderColor: "darkred", // Default border color
@@ -91,7 +92,7 @@ const AddMember = () => {
             "& .Mui-focused .MuiInputBase-input": {
               color: "darkred", // Change text color on focus (green)
             },
-           }}
+          }}
           value={name}
           onChange={(e) => setName(e.target.value)}
           required
@@ -100,7 +101,8 @@ const AddMember = () => {
           label="Rol"
           variant="outlined"
           fullWidth
-          sx={{ marginBottom: 2,
+          sx={{
+            marginBottom: 2,
             "& .MuiOutlinedInput-root": {
               "& fieldset": {
                 borderColor: "darkred", // Default border color
@@ -116,22 +118,21 @@ const AddMember = () => {
               color: "darkred", // Default text color
             },
             "& .Mui-focused .MuiInputBase-input": {
-              color: "darkred", 
+              color: "darkred",
             },
-           }}
+          }}
           value={role}
           onChange={(e) => setRole(e.target.value)}
-          required
         />
         <Button
           type="submit"
           variant="contained"
           fullWidth
           disabled={loading}
-          sx={{ 
+          sx={{
             padding: 1,
-            color:"white",
-            backgroundColor:"darkred"
+            color: "white",
+            backgroundColor: "darkred",
           }}
         >
           {loading ? (
