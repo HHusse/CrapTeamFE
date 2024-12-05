@@ -3,6 +3,8 @@ import { Box, Typography } from "@mui/material";
 import AddMember from "../Components/AddMember";
 import UploadLogo from "../Components/UploadLogo";
 import MemberList from "../Components/MemberList";
+import AvailableCompetitions from "../Components/AvailableCompetitions";
+import ParticipatingCompetitions from "../Components/ParticipatingCompetitions";
 
 const DashboardTeam = () => {
   return (
@@ -25,6 +27,8 @@ const DashboardTeam = () => {
       <UploadLogo />
       <AddMember />
       <MemberList />
+      <AvailableCompetitions />
+      <ParticipatingCompetitions />
     </Box>
   );
 };

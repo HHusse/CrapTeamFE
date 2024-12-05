@@ -33,7 +33,6 @@ const MemberList = () => {
         }
       );
       setMembers(response.data);
-      console.log(response.data);
     } catch (err) {
       console.error("Error fetching members:", err);
       setError("Failed to fetch team members. Please try again.");
@@ -94,6 +93,7 @@ const MemberList = () => {
         justifyContent: "center",
         alignItems: "center",
         flexDirection: "column",
+        marginBottom: "10vh",
         padding: 3,
         width: "100%",
         backgroundColor: "rgba(255, 255, 255, 0.9)",

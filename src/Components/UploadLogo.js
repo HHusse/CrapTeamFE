@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import {
   TextField,
   Button,
@@ -18,6 +18,9 @@ const UpdateLogo = () => {
 
   const token = getToken();
 
+  const logoUrlRef = useRef(logoUrl);
+  logoUrlRef.current = logoUrl;
+
   // Fetch the current logo when the component loads
   useEffect(() => {
     const fetchLogo = async () => {
@@ -28,26 +31,25 @@ const UpdateLogo = () => {
             headers: {
               Authorization: `Bearer ${token}`,
             },
-            responseType: "arraybuffer", // To fetch raw binary data
+            responseType: "arraybuffer",
           }
         );
 
-        // Convert the bytes to a Blob and then to a URL
-        const blob = new Blob([response.data], { type: "image/png" }); // Adjust type if needed (e.g., image/jpeg)
+        const blob = new Blob([response.data], { type: "image/png" });
         const imageUrl = URL.createObjectURL(blob);
-        setLogoUrl(imageUrl); // Set the generated URL
+        setLogoUrl(imageUrl);
       } catch (err) {}
     };
 
     fetchLogo();
 
-    // Cleanup: Revoke the object URL when the component unmounts
     return () => {
-      if (logoUrl) {
-        URL.revokeObjectURL(logoUrl);
+      // Cleanup: Revoke the object URL using the ref
+      if (logoUrlRef.current) {
+        URL.revokeObjectURL(logoUrlRef.current);
       }
     };
-  }, [token, logoUrl]);
+  }, [token]);
 
   // Handle file selection
   const handleFileChange = (e) => {

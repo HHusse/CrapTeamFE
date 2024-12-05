@@ -24,8 +24,13 @@ const Navbar = () => {
   }, [getToken]);
 
   // Function to handle navigation to the passed path
-  const handleAdminClick = (where) => {
+  const handleRedicrectClick = (where) => {
     navigate(where); // Navigate to the path provided
+  };
+
+  const logOut = () => {
+    localStorage.removeItem("authToken");
+    navigate("/login");
   };
 
   return (
@@ -43,7 +48,7 @@ const Navbar = () => {
             src="/logo.png"
             alt="Logo"
             className="h-20 cursor-pointer"
-            onClick={() => handleAdminClick("/")}
+            onClick={() => handleRedicrectClick("/")}
           />
 
           {/* Menu */}
@@ -55,7 +60,7 @@ const Navbar = () => {
                 textTransform: "none",
               }}
               className="hover:text-gray-400"
-              onClick={() => handleAdminClick("/")}
+              onClick={() => handleRedicrectClick("/")}
             >
               Acasă
             </Button>
@@ -76,44 +81,71 @@ const Navbar = () => {
                 textTransform: "none",
               }}
               className="hover:text-gray-400"
-              onClick={() => handleAdminClick("/competitions")} // Corrected to use arrow function
+              onClick={() => handleRedicrectClick("/competitions")} // Corrected to use arrow function
             >
               Competiții Organizate
             </Button>
 
             {/* Conditionally render the "Panoul de admin" button for ADMIN role */}
             {role === "ADMIN" && (
-              <Button
-                sx={{
-                  color: "white",
-                  backgroundColor: "transparent",
-                  textTransform: "none",
-                  border: "1px solid white",
-                }}
-                className="hover:text-gray-400 px-4 rounded"
-                onClick={() => handleAdminClick("/admin")} // Corrected to use arrow function
-              >
-                Panoul de admin
-              </Button>
+              <>
+                <Button
+                  sx={{
+                    color: "white",
+                    backgroundColor: "transparent",
+                    textTransform: "none",
+                    border: "1px solid white",
+                  }}
+                  className="hover:text-gray-400 px-4 rounded"
+                  onClick={() => handleRedicrectClick("/admin")} // Corrected to use arrow function
+                >
+                  Panoul de admin
+                </Button>
+                <Button
+                  sx={{
+                    color: "white",
+                    backgroundColor: "transparent",
+                    textTransform: "none",
+                    border: "1px solid red",
+                  }}
+                  className="hover:text-gray-400 px-4 rounded"
+                  onClick={() => logOut()}
+                >
+                  Deconectare
+                </Button>
+              </>
             )}
 
             {/* Conditionally render the "Echipa Mea" button for TEAM role */}
             {role === "TEAM" && (
-              <Button
-                sx={{
-                  color: "white",
-                  backgroundColor: "transparent",
-                  textTransform: "none",
-                  border: "1px solid black",
-                }}
-                className="hover:text-gray-400 px-4 rounded"
-                onClick={() => handleAdminClick("/echipa-mea")}
-              >
-                Echipa Mea
-              </Button>
+              <>
+                <Button
+                  sx={{
+                    color: "white",
+                    backgroundColor: "transparent",
+                    textTransform: "none",
+                    border: "1px solid white",
+                  }}
+                  className="hover:text-gray-400 px-4 rounded"
+                  onClick={() => handleRedicrectClick("/echipa-mea")}
+                >
+                  Echipa Mea
+                </Button>
+                <Button
+                  sx={{
+                    color: "white",
+                    backgroundColor: "transparent",
+                    textTransform: "none",
+                    border: "1px solid red",
+                  }}
+                  className="hover:text-gray-400 px-4 rounded"
+                  onClick={() => logOut()}
+                >
+                  Deconectare
+                </Button>
+              </>
             )}
 
-            {/* Default 'Autentificare' button if no role */}
             {role === null && (
               <Button
                 sx={{
@@ -123,7 +155,7 @@ const Navbar = () => {
                   border: "1px solid black",
                 }}
                 className="hover:text-gray-400 px-4 rounded"
-                onClick={() => handleAdminClick("/login")}
+                onClick={() => handleRedicrectClick("/login")}
               >
                 Autentificare
               </Button>
