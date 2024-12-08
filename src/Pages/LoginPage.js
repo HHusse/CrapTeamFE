@@ -44,6 +44,10 @@ const LoginPage = () => {
     }
   };
 
+  const handleRegister = () => {
+    navigate("/register");
+  };
+
   return (
     <Box
       sx={{
@@ -166,6 +170,33 @@ const LoginPage = () => {
           }}
         >
           {loading ? <CircularProgress size={24} color="white" /> : "Login"}
+        </Button>
+        <Button
+          variant="contained"
+          color="primary"
+          fullWidth
+          disabled={loading}
+          onClick={handleRegister}
+          sx={{
+            marginTop: 2,
+            backgroundColor: "white", // Initial background color
+            color: "darkred", // Initial text color
+            "&:hover": {
+              backgroundColor: "lightgray", // Set a custom hover background color
+            },
+            "&:active": {
+              backgroundColor: "white", // Keep background white when clicked (active state)
+            },
+            "&:focus": {
+              backgroundColor: "white", // Keep background white when focused
+            },
+            "&:disabled": {
+              backgroundColor: "lightgray", // Optional: change color when button is disabled
+              color: "darkred", // Optional: color when disabled
+            },
+          }}
+        >
+          Register
         </Button>
       </form>
     </Box>

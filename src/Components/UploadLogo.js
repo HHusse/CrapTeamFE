@@ -51,6 +51,24 @@ const UpdateLogo = () => {
     };
   }, [token]);
 
+  const fetchLogo = async () => {
+    try {
+      const response = await axios.get(
+        `${process.env.REACT_APP_API_URL}/api/v1/team/logo`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+          responseType: "arraybuffer",
+        }
+      );
+
+      const blob = new Blob([response.data], { type: "image/png" });
+      const imageUrl = URL.createObjectURL(blob);
+      setLogoUrl(imageUrl);
+    } catch (err) {}
+  };
+
   // Handle file selection
   const handleFileChange = (e) => {
     setLogo(e.target.files[0]);
@@ -73,7 +91,7 @@ const UpdateLogo = () => {
     setError(null);
 
     try {
-      const response = await axios.post(
+      await axios.post(
         `${process.env.REACT_APP_API_URL}/api/v1/team/upload-image`,
         formData,
         {
@@ -84,11 +102,8 @@ const UpdateLogo = () => {
         }
       );
 
-      const updatedBlob = new Blob([response.data], { type: "image/png" });
-      const updatedUrl = URL.createObjectURL(updatedBlob);
-      setLogoUrl(updatedUrl); // Update the displayed logo
       alert("Logo-ul a fost actualizat cu succes!");
-      setLogo(null);
+      fetchLogo();
     } catch (err) {
       console.error("Error updating logo:", err);
       setError("Failed to update the logo. Please try again.");

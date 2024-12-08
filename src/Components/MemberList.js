@@ -125,9 +125,7 @@ const MemberList = () => {
       {loading ? (
         <CircularProgress sx={{ color: "darkred" }} />
       ) : error ? (
-        <Typography variant="body2" color="error">
-          {error}
-        </Typography>
+        <Typography variant="body2">Nu exista niciun membru</Typography>
       ) : (
         <List sx={{ width: "100%", maxWidth: "600px" }}>
           {members.map((member) => (

@@ -17,6 +17,8 @@ const Navbar = () => {
       if (token) {
         const userRole = await fetchUserRole(token);
         setRole(userRole);
+      } else {
+        setRole("");
       }
     };
 
@@ -63,16 +65,6 @@ const Navbar = () => {
               onClick={() => handleRedicrectClick("/")}
             >
               Acasă
-            </Button>
-            <Button
-              sx={{
-                color: "white",
-                backgroundColor: "transparent",
-                textTransform: "none",
-              }}
-              className="hover:text-gray-400"
-            >
-              Despre Noi
             </Button>
             <Button
               sx={{
@@ -146,7 +138,7 @@ const Navbar = () => {
               </>
             )}
 
-            {role === null && (
+            {role === "" && (
               <Button
                 sx={{
                   color: "white",

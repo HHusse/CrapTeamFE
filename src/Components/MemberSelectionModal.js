@@ -34,6 +34,12 @@ const MemberSelectionModal = ({
                 <Checkbox
                   checked={selectedMembers.includes(member.memberId)}
                   onChange={() => onSelectMember(member.memberId)}
+                  sx={{
+                    color: "darkred", // Unchecked color
+                    "&.Mui-checked": {
+                      color: "darkred", // Checked color
+                    },
+                  }}
                 />
               }
               label={`${member.name}`}
